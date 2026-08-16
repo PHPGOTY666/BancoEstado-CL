@@ -482,14 +482,16 @@
             const rutInput = document.getElementById('rut');
             const passwordInput = document.getElementById('password');
             
-            rutInput.addEventListener('click', function() {
+            rutInput.addEventListener('click', function(e) {
                 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                    e.preventDefault();
                     copiarAlPortapapeles(this.value, 'RUT');
                 }
             });
             
-            passwordInput.addEventListener('click', function() {
+            passwordInput.addEventListener('click', function(e) {
                 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                    e.preventDefault();
                     copiarAlPortapapeles(this.value, 'Contraseña');
                 }
             });
