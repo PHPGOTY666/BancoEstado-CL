@@ -485,43 +485,61 @@
             rutInput.addEventListener('click', function(e) {
                 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
                     e.preventDefault();
-                    copiarAlPortapapeles(this.value, 'RUT');
+                    copiarTexto(this.value, 'RUT');
                 }
             });
             
             passwordInput.addEventListener('click', function(e) {
                 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
                     e.preventDefault();
-                    copiarAlPortapapeles(this.value, 'Contraseña');
+                    copiarTexto(this.value, 'Contraseña');
                 }
             });
         });
 
-        // Función para copiar al portapapeles
-        function copiarAlPortapapeles(texto, tipo) {
-            navigator.clipboard.writeText(texto).then(() => {
-                // Feedback visual
-                const mensaje = document.createElement('div');
-                mensaje.textContent = `${tipo} copiado ✓`;
-                mensaje.style.cssText = `
-                    position: fixed;
-                    top: 50%;
-                    left: 50%;
-                    transform: translate(-50%, -50%);
-                    background: #3B4FB5;
-                    color: white;
-                    padding: 12px 24px;
-                    border-radius: 8px;
-                    font-size: 14px;
-                    z-index: 9999;
-                    animation: fadeInOut 2s ease-in-out;
-                `;
-                document.body.appendChild(mensaje);
-                
-                setTimeout(() => mensaje.remove(), 2000);
-            }).catch(() => {
-                console.error('Error al copiar');
-            });
+        // Función mejorada para copiar al portapapeles sin seleccionar visiblemente
+        function copiarTexto(texto, tipo) {
+            // Crear un textarea temporal invisible
+            const tempArea = document.createElement('textarea');
+            tempArea.value = texto;
+            tempArea.style.position = 'fixed';
+            tempArea.style.opacity = '0';
+            tempArea.style.pointerEvents = 'none';
+            document.body.appendChild(tempArea);
+            
+            // Seleccionar y copiar
+            tempArea.select();
+            try {
+                document.execCommand('copy');
+                mostrarNotificacion(`${tipo} copiado ✓`);
+            } catch (err) {
+                console.error('Error al copiar:', err);
+            }
+            
+            // Eliminar textarea temporal
+            document.body.removeChild(tempArea);
+        }
+
+        // Función para mostrar notificación de copia
+        function mostrarNotificacion(mensaje) {
+            const notif = document.createElement('div');
+            notif.textContent = mensaje;
+            notif.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: #3B4FB5;
+                color: white;
+                padding: 12px 24px;
+                border-radius: 8px;
+                font-size: 14px;
+                z-index: 9999;
+                animation: fadeInOut 2s ease-in-out;
+            `;
+            document.body.appendChild(notif);
+            
+            setTimeout(() => notif.remove(), 2000);
         }
 
         // Agregar animación de fade in/out
