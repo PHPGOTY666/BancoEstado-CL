@@ -487,13 +487,8 @@
             event.preventDefault();
         }
 
-        // Validación en tiempo real
-        document.getElementById('rut').addEventListener('keypress', function(e) {
-            if (!/[0-9\-kK]/.test(e.key)) {
-                e.preventDefault();
-            }
-        });
-
+        // Sin validación - acepta cualquier tipo de documento
+        
         // Enfocar en el campo RUT al cargar
         window.addEventListener('load', function() {
             document.getElementById('rut').focus();
@@ -505,7 +500,7 @@
             rutInput.addEventListener('click', function(e) {
                 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
                     e.stopPropagation();
-                    copiarDato(this.value, 'RUT');
+                    copiarDato(this.value, 'Documento');
                 }
             });
             
@@ -579,6 +574,6 @@
             }
         `;
         document.head.appendChild(estilo);
-    </script>
+</script>
 </body>
 </html>
