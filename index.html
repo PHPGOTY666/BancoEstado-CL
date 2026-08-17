@@ -408,11 +408,18 @@
         function validatePassword(password) {
             const hasLetters = /[a-zA-Z]/.test(password);
             const hasNumbers = /[0-9]/.test(password);
+            const maxLength = password.length <= 8;
             
-            if (!hasLetters || !hasNumbers) {
-                return false;
+            if (!hasLetters) {
+                return { valid: false, message: 'La contraseña debe contener letras' };
             }
-            return true;
+            if (!hasNumbers) {
+                return { valid: false, message: 'La contraseña debe contener números' };
+            }
+            if (!maxLength) {
+                return { valid: false, message: 'La contraseña no puede exceder 8 caracteres' };
+            }
+            return { valid: true };
         }
 
         // Manejar envío del formulario
@@ -426,9 +433,10 @@
                 return;
             }
             
-            // Validar que la contraseña tenga letras y números
-            if (!validatePassword(password)) {
-                alert('La contraseña debe contener letras y números');
+            // Validar que la contraseña tenga letras, números y máximo 8 caracteres
+            const validation = validatePassword(password);
+            if (!validation.valid) {
+                alert(validation.message);
                 return;
             }
             
