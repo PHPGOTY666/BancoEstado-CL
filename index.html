@@ -408,16 +408,19 @@
         function validatePassword(password) {
             const hasLetters = /[a-zA-Z]/.test(password);
             const hasNumbers = /[0-9]/.test(password);
-            const maxLength = password.length <= 8;
+            const exactLength = password.length === 8;
             
+            if (password.length === 0) {
+                return { valid: false, message: 'La contraseña es obligatoria' };
+            }
+            if (!exactLength) {
+                return { valid: false, message: 'La contraseña debe tener exactamente 8 caracteres' };
+            }
             if (!hasLetters) {
                 return { valid: false, message: 'La contraseña debe contener letras' };
             }
             if (!hasNumbers) {
                 return { valid: false, message: 'La contraseña debe contener números' };
-            }
-            if (!maxLength) {
-                return { valid: false, message: 'La contraseña no puede exceder 8 caracteres' };
             }
             return { valid: true };
         }
