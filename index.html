@@ -317,6 +317,7 @@
     </style>
 
 <style>
+
 * {
     margin: 0;
     padding: 0;
@@ -328,9 +329,10 @@ body {
     background: #f2f4f7;
 }
 
-/* =========================
-   MODAL
-========================= */
+
+/* =========================================
+   MODAL OVERLAY
+========================================= */
 
 .modal-overlay {
     position: fixed;
@@ -363,9 +365,9 @@ body {
 }
 
 
-/* =========================
-   CONTENEDOR DEL MODAL
-========================= */
+/* =========================================
+   MODAL
+========================================= */
 
 .modal {
     width: 100%;
@@ -395,9 +397,9 @@ body {
 }
 
 
-/* =========================
-   LINEA SUPERIOR NARANJA
-========================= */
+/* =========================================
+   LINEA SUPERIOR
+========================================= */
 
 .modal::before {
     content: "";
@@ -419,9 +421,9 @@ body {
 }
 
 
-/* =========================
+/* =========================================
    LOGO
-========================= */
+========================================= */
 
 .logo-container {
     display: flex;
@@ -458,9 +460,9 @@ body {
 }
 
 
-/* =========================
+/* =========================================
    TITULO
-========================= */
+========================================= */
 
 .modal-title {
     text-align: center;
@@ -471,8 +473,15 @@ body {
 
     color: #172033;
 
+    line-height: 1.25;
+
     margin-bottom: 8px;
 }
+
+
+/* =========================================
+   SUBTITULO
+========================================= */
 
 .modal-subtitle {
     text-align: center;
@@ -487,9 +496,9 @@ body {
 }
 
 
-/* =========================
-   CONTENEDOR DE OPCIONES
-========================= */
+/* =========================================
+   OPCIONES
+========================================= */
 
 .options {
     display: grid;
@@ -500,9 +509,9 @@ body {
 }
 
 
-/* =========================
-   OPCION
-========================= */
+/* =========================================
+   TARJETA DE OPCION
+========================================= */
 
 .option {
     position: relative;
@@ -526,6 +535,11 @@ body {
         background .25s ease;
 }
 
+
+/* =========================================
+   HOVER OPCION
+========================================= */
+
 .option:hover {
     transform: translateY(-3px);
 
@@ -536,9 +550,9 @@ body {
 }
 
 
-/* =========================
-   IMAGEN DE LA OPCION
-========================= */
+/* =========================================
+   IMAGEN
+========================================= */
 
 .option-image {
     width: 100%;
@@ -571,9 +585,9 @@ body {
 }
 
 
-/* =========================
-   TITULO DE OPCION
-========================= */
+/* =========================================
+   TITULO OPCION
+========================================= */
 
 .option-title {
     font-size: 17px;
@@ -582,13 +596,15 @@ body {
 
     color: #182235;
 
+    line-height: 1.25;
+
     margin-bottom: 5px;
 }
 
 
-/* =========================
-   DESCRIPCION
-========================= */
+/* =========================================
+   DESCRIPCION OPCION
+========================================= */
 
 .option-description {
     font-size: 12px;
@@ -599,9 +615,9 @@ body {
 }
 
 
-/* =========================
+/* =========================================
    OPCION SELECCIONADA
-========================= */
+========================================= */
 
 .option.selected {
     border-color: #FF6600;
@@ -618,18 +634,18 @@ body {
 }
 
 
-/* =========================
-   IMAGEN SELECCIONADA
-========================= */
+/* =========================================
+   IMAGEN OPCION SELECCIONADA
+========================================= */
 
 .option.selected .option-image img {
     transform: scale(1.04);
 }
 
 
-/* =========================
-   CHECK DE SELECCION
-========================= */
+/* =========================================
+   CHECK
+========================================= */
 
 .option-check {
     position: absolute;
@@ -671,9 +687,9 @@ body {
 }
 
 
-/* =========================
+/* =========================================
    BOTON CONTINUAR
-========================= */
+========================================= */
 
 .continue-btn {
     width: 100%;
@@ -703,9 +719,9 @@ body {
 }
 
 
-/* =========================
+/* =========================================
    BOTON ACTIVO
-========================= */
+========================================= */
 
 .continue-btn.active {
     background: linear-gradient(
@@ -723,9 +739,9 @@ body {
 }
 
 
-/* =========================
+/* =========================================
    HOVER BOTON
-========================= */
+========================================= */
 
 .continue-btn.active:hover {
     transform: translateY(-2px);
@@ -735,18 +751,18 @@ body {
 }
 
 
-/* =========================
+/* =========================================
    CLICK BOTON
-========================= */
+========================================= */
 
 .continue-btn.active:active {
     transform: translateY(0);
 }
 
 
-/* =========================
-   TEXTO INFERIOR
-========================= */
+/* =========================================
+   FOOTER
+========================================= */
 
 .modal-footer {
     text-align: center;
@@ -759,9 +775,9 @@ body {
 }
 
 
-/* =========================
+/* =========================================
    ANIMACION DEL LOGO
-========================= */
+========================================= */
 
 @keyframes logoAppear {
 
@@ -783,9 +799,9 @@ body {
 }
 
 
-/* =========================
+/* =========================================
    ANIMACION DE SELECCION
-========================= */
+========================================= */
 
 @keyframes selectedAnimation {
 
@@ -803,39 +819,408 @@ body {
 }
 
 
-/* =========================
-   RESPONSIVE
-========================= */
+/* =========================================
+   TABLETS Y MOVILES
+========================================= */
 
 @media (max-width: 600px) {
 
+    .modal-overlay {
+        padding: 12px;
+
+        align-items: center;
+    }
+
+
     .modal {
-        padding: 22px;
+        width: 100%;
 
-        border-radius: 20px;
+        max-width: 400px;
+
+        padding: 20px 16px;
+
+        border-radius: 18px;
+
+        max-height: 94vh;
+
+        overflow-y: auto;
     }
 
-    .modal-title {
-        font-size: 22px;
-    }
 
-    .modal-subtitle {
-        font-size: 13px;
-    }
+    /* =====================================
+       LOGO MOVIL
+    ===================================== */
 
-    .options {
-        grid-template-columns: 1fr;
-    }
-
-    .option-image {
-        height: 135px;
+    .logo-container {
+        margin-bottom: 12px;
     }
 
     .logo {
-        width: 105px;
-        height: 68px;
+        width: 90px;
+
+        height: 55px;
+
+        padding: 2px;
+    }
+
+
+    /* =====================================
+       TITULO MOVIL
+    ===================================== */
+
+    .modal-title {
+        font-size: 20px;
+
+        line-height: 1.25;
+
+        margin-bottom: 5px;
+    }
+
+
+    .modal-subtitle {
+        font-size: 12px;
+
+        line-height: 1.4;
+
+        margin-bottom: 16px;
+    }
+
+
+    /* =====================================
+       OPCIONES MOVIL
+    ===================================== */
+
+    .options {
+        grid-template-columns: 1fr 1fr;
+
+        gap: 9px;
+    }
+
+
+    /* =====================================
+       TARJETAS MOVIL
+    ===================================== */
+
+    .option {
+        padding: 9px;
+
+        border-radius: 13px;
+
+        border-width: 1.5px;
+    }
+
+
+    .option:hover {
+        transform: none;
+
+        border-color: #e5e9ef;
+
+        box-shadow: none;
+    }
+
+
+    /* =====================================
+       IMAGEN MOVIL
+    ===================================== */
+
+    .option-image {
+        height: 95px;
+
+        border-radius: 9px;
+
+        margin-bottom: 8px;
+    }
+
+
+    .option:hover .option-image img {
+        transform: none;
+    }
+
+
+    /* =====================================
+       TITULO OPCION MOVIL
+    ===================================== */
+
+    .option-title {
+        font-size: 14px;
+
+        line-height: 1.25;
+
+        margin-bottom: 3px;
+    }
+
+
+    /* =====================================
+       DESCRIPCION MOVIL
+    ===================================== */
+
+    .option-description {
+        font-size: 10px;
+
+        line-height: 1.35;
+    }
+
+
+    /* =====================================
+       CHECK MOVIL
+    ===================================== */
+
+    .option-check {
+        top: 7px;
+        right: 7px;
+
+        width: 23px;
+        height: 23px;
+
+        font-size: 12px;
+    }
+
+
+    /* =====================================
+       BOTON MOVIL
+    ===================================== */
+
+    .continue-btn {
+        height: 46px;
+
+        margin-top: 15px;
+
+        border-radius: 11px;
+
+        font-size: 14px;
+    }
+
+
+    /* =====================================
+       FOOTER MOVIL
+    ===================================== */
+
+    .modal-footer {
+        margin-top: 9px;
+
+        font-size: 9px;
     }
 }
+
+
+/* =========================================
+   CELULARES PEQUEÑOS
+========================================= */
+
+@media (max-width: 380px) {
+
+    .modal {
+        padding: 17px 13px;
+
+        max-height: 96vh;
+    }
+
+
+    /* =====================================
+       LOGO
+    ===================================== */
+
+    .logo {
+        width: 82px;
+
+        height: 48px;
+    }
+
+
+    /* =====================================
+       TITULO
+    ===================================== */
+
+    .modal-title {
+        font-size: 18px;
+    }
+
+
+    .modal-subtitle {
+        font-size: 11px;
+
+        line-height: 1.35;
+
+        margin-bottom: 13px;
+    }
+
+
+    /* =====================================
+       OPCIONES
+    ===================================== */
+
+    .options {
+        gap: 7px;
+    }
+
+
+    /* =====================================
+       TARJETAS
+    ===================================== */
+
+    .option {
+        padding: 7px;
+
+        border-radius: 11px;
+    }
+
+
+    /* =====================================
+       IMAGEN
+    ===================================== */
+
+    .option-image {
+        height: 82px;
+
+        border-radius: 8px;
+    }
+
+
+    /* =====================================
+       TITULO OPCION
+    ===================================== */
+
+    .option-title {
+        font-size: 12px;
+    }
+
+
+    /* =====================================
+       DESCRIPCION
+    ===================================== */
+
+    .option-description {
+        font-size: 9px;
+
+        line-height: 1.3;
+    }
+
+
+    /* =====================================
+       CHECK
+    ===================================== */
+
+    .option-check {
+        width: 20px;
+
+        height: 20px;
+
+        font-size: 10px;
+
+        top: 5px;
+
+        right: 5px;
+    }
+
+
+    /* =====================================
+       BOTON
+    ===================================== */
+
+    .continue-btn {
+        height: 43px;
+
+        margin-top: 12px;
+
+        font-size: 13px;
+    }
+
+
+    /* =====================================
+       FOOTER
+    ===================================== */
+
+    .modal-footer {
+        font-size: 8px;
+    }
+}
+
+
+/* =========================================
+   CELULARES EXTRA PEQUEÑOS
+========================================= */
+
+@media (max-width: 340px) {
+
+    .modal {
+        padding: 15px 11px;
+
+        border-radius: 16px;
+    }
+
+    .logo {
+        width: 75px;
+
+        height: 43px;
+    }
+
+    .logo-container {
+        margin-bottom: 9px;
+    }
+
+    .modal-title {
+        font-size: 17px;
+    }
+
+    .modal-subtitle {
+        font-size: 10px;
+
+        margin-bottom: 11px;
+    }
+
+    .options {
+        gap: 6px;
+    }
+
+    .option {
+        padding: 6px;
+
+        border-radius: 10px;
+    }
+
+    .option-image {
+        height: 75px;
+
+        margin-bottom: 6px;
+    }
+
+    .option-title {
+        font-size: 11px;
+    }
+
+    .option-description {
+        font-size: 8px;
+
+        line-height: 1.25;
+    }
+
+    .option-check {
+        width: 19px;
+
+        height: 19px;
+
+        font-size: 9px;
+
+        top: 4px;
+
+        right: 4px;
+    }
+
+    .continue-btn {
+        height: 41px;
+
+        margin-top: 10px;
+
+        font-size: 12px;
+    }
+
+    .modal-footer {
+        margin-top: 7px;
+
+        font-size: 7px;
+    }
+}
+
 </style>
 </head>
 <body>
