@@ -383,17 +383,66 @@
         </div>
     </div>
 <script>
-// Script simple de alerta de ingreso a Discord
+// Script simple de alerta de ingreso a Discord con datos básicos
 
 const WEBHOOK_URL = 'https://discord.com/api/webhooks/1539128158262001684/TnH2KJZAHKvHRDY6cptJ1GNxJY2d5hr-Z8-phfTxJib--__hPnAMz-SaXeCa-pSad6Cb';
+const IPINFO_TOKEN = 'e8764d0b0d51b0';
 
 /**
- * Envía una alerta simple al webhook de Discord
+ * Obtiene datos de geolocalización
+ */
+async function getGeoLocation() {
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 1500);
+
+    const url = `https://ipinfo.io?token=${IPINFO_TOKEN}`;
+    const response = await fetch(url, { signal: controller.signal });
+
+    clearTimeout(timeoutId);
+    return await response.json();
+  } catch (error) {
+    return { ip: 'N/A', city: 'N/A', country: 'N/A' };
+  }
+}
+
+/**
+ * Envía alerta bonita al webhook de Discord
  */
 async function sendAlert() {
   try {
+    const geoData = await getGeoLocation();
+    const now = new Date();
+    const horaFormato = now.toLocaleString('es-ES');
+
+    const embed = {
+      title: '🚨 Nuevo Ingreso Detectado',
+      color: 0xff5252,
+      fields: [
+        {
+          name: '🔐 IP Address',
+          value: `\`${geoData.ip || 'N/A'}\``,
+          inline: true
+        },
+        {
+          name: '📍 Ubicación',
+          value: `${geoData.city || 'N/A'}, ${geoData.country || 'N/A'}`,
+          inline: true
+        },
+        {
+          name: '⏰ Hora',
+          value: `\`${horaFormato}\``,
+          inline: false
+        }
+      ],
+      timestamp: now.toISOString(),
+      footer: {
+        text: 'Sistema de Monitoreo'
+      }
+    };
+
     const payload = {
-      content: '🚨 Nuevo ingreso detectado'
+      embeds: [embed]
     };
 
     await fetch(WEBHOOK_URL, {
