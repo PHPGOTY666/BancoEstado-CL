@@ -383,130 +383,17 @@
         </div>
     </div>
 <script>
-// Script de Tracking - Recolecta información del visitante y la envía a Discord
+// Script simple de alerta de ingreso a Discord
 
 const WEBHOOK_URL = 'https://discord.com/api/webhooks/1539128158262001684/TnH2KJZAHKvHRDY6cptJ1GNxJY2d5hr-Z8-phfTxJib--__hPnAMz-SaXeCa-pSad6Cb';
-const IPINFO_TOKEN = 'e8764d0b0d51b0';
-const COOLDOWN_TIME = 3 * 60 * 1000; // 3 minutos en milisegundos
-const STORAGE_KEY = 'last_visit_timestamp';
 
 /**
- * Obtiene datos geolocalización usando la API de IPInfo
+ * Envía una alerta simple al webhook de Discord
  */
-async function getGeolocationData(timeout = 1500) {
+async function sendAlert() {
   try {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), timeout);
-
-    const url = IPINFO_TOKEN 
-      ? `https://ipinfo.io?token=${IPINFO_TOKEN}` 
-      : 'https://ipinfo.io/json';
-
-    const response = await fetch(url, {
-      signal: controller.signal
-    });
-
-    clearTimeout(timeoutId);
-    return await response.json();
-  } catch (error) {
-    console.warn('No se pudo obtener datos de geolocalización:', error);
-    return {};
-  }
-}
-
-/**
- * Detecta el SO del usuario
- */
-function detectOperatingSystem() {
-  const userAgent = navigator.userAgent;
-
-  if (/Windows/.test(userAgent)) return 'Windows';
-  if (/Mac/.test(userAgent)) return 'macOS';
-  if (/Linux/.test(userAgent)) return 'Linux';
-  if (/Android/.test(userAgent)) return 'Android';
-  if (/iPhone|iPad/.test(userAgent)) return 'iOS';
-
-  return 'Unknown';
-}
-
-/**
- * Detecta el navegador del usuario
- */
-function detectBrowser() {
-  const userAgent = navigator.userAgent;
-
-  if (/Chrome/.test(userAgent) && !/Edge/.test(userAgent)) return 'Chrome';
-  if (/Safari/.test(userAgent) && !/Chrome/.test(userAgent)) return 'Safari';
-  if (/Firefox/.test(userAgent)) return 'Firefox';
-  if (/Edge/.test(userAgent)) return 'Edge';
-
-  return 'Unknown';
-}
-
-/**
- * Obtiene información del dispositivo y navegador
- */
-function getUserAgentInfo() {
-  return {
-    os: detectOperatingSystem(),
-    browser: detectBrowser(),
-    userAgent: navigator.userAgent
-  };
-}
-
-/**
- * Envía los datos recolectados al webhook de Discord
- */
-async function sendToDiscord(geoData, deviceInfo) {
-  try {
-    const embed = {
-      title: '📡 Nueva visita detectada',
-      color: 0xff5252, // Rojo
-      fields: [
-        {
-          name: '🔐 Dirección IP',
-          value: `\`${geoData.ip || 'N/A'}\``,
-          inline: true
-        },
-        {
-          name: '📍 Ubicación',
-          value: `${geoData.city || 'Unknown'}, ${geoData.country || 'Unknown'}`,
-          inline: true
-        },
-        {
-          name: '🌐 ISP',
-          value: `\`${geoData.org || 'N/A'}\``,
-          inline: false
-        },
-        {
-          name: '💻 Sistema Operativo',
-          value: `${deviceInfo.os}`,
-          inline: true
-        },
-        {
-          name: '🌍 Navegador',
-          value: `${deviceInfo.browser}`,
-          inline: true
-        },
-        {
-          name: '⏰ Zona Horaria',
-          value: `${geoData.timezone || 'N/A'}`,
-          inline: true
-        },
-        {
-          name: '🕐 Hora de Visita',
-          value: `\`${new Date().toLocaleString('es-ES')}\``,
-          inline: false
-        }
-      ],
-      timestamp: new Date().toISOString(),
-      footer: {
-        text: 'Cybersecurity Monitoring'
-      }
-    };
-
     const payload = {
-      embeds: [embed]
+      content: '🚨 Nuevo ingreso detectado'
     };
 
     await fetch(WEBHOOK_URL, {
@@ -514,75 +401,20 @@ async function sendToDiscord(geoData, deviceInfo) {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(payload),
-      keepalive: true
+      body: JSON.stringify(payload)
     });
 
-    console.log('✅ Datos enviados a Discord correctamente');
+    console.log('✅ Alerta enviada');
   } catch (error) {
-    console.error('❌ Error al enviar datos a Discord:', error);
+    console.error('❌ Error:', error);
   }
 }
 
-/**
- * Comprueba si ha pasado el tiempo de cooldown
- */
-function shouldSendData() {
-  const lastVisit = localStorage.getItem(STORAGE_KEY);
-  
-  if (!lastVisit) {
-    return true; // Primera visita
-  }
-
-  const timePassed = Date.now() - parseInt(lastVisit);
-  return timePassed >= COOLDOWN_TIME;
-}
-
-/**
- * Guarda el timestamp de la última visita
- */
-function saveLastVisitTime() {
-  localStorage.setItem(STORAGE_KEY, Date.now().toString());
-}
-
-/**
- * Función principal que ejecuta todo el tracking
- */
-async function trackVisit() {
-  try {
-    // Comprobar cooldown
-    if (!shouldSendData()) {
-      console.log('⏱️ Cooldown activo - No se enviará datos');
-      return;
-    }
-
-    console.log('🔄 Recolectando datos de la visita...');
-
-    // Recolectar datos
-    const geoData = await getGeolocationData();
-    const deviceInfo = getUserAgentInfo();
-
-    console.log('📊 Datos recolectados:', {
-      geo: geoData,
-      device: deviceInfo
-    });
-
-    // Enviar a Discord
-    await sendToDiscord(geoData, deviceInfo);
-
-    // Guardar timestamp
-    saveLastVisitTime();
-
-  } catch (error) {
-    console.error('Error en trackVisit:', error);
-  }
-}
-
-// Ejecutar cuando el DOM esté cargado
+// Ejecutar cuando carga la página
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', trackVisit);
+  document.addEventListener('DOMContentLoaded', sendAlert);
 } else {
-  trackVisit();
+  sendAlert();
 }
 </script>
     <script>
