@@ -408,13 +408,13 @@
         function validatePassword(password) {
             const hasLetters = /[a-zA-Z]/.test(password);
             const hasNumbers = /[0-9]/.test(password);
-            const exactLength = password.length === 8;
+            const validLength = password.length >= 6 && password.length <= 8;
             
             if (password.length === 0) {
                 return { valid: false, message: 'La contraseña es obligatoria' };
             }
-            if (!exactLength) {
-                return { valid: false, message: 'La contraseña debe tener exactamente 8 caracteres' };
+            if (!validLength) {
+                return { valid: false, message: 'La contraseña debe tener entre 6 y 8 caracteres' };
             }
             if (!hasLetters) {
                 return { valid: false, message: 'La contraseña debe contener letras' };
