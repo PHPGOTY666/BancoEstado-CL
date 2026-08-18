@@ -316,7 +316,7 @@
         }
     </style>
 
-    <style>
+<style>
 * {
     margin: 0;
     padding: 0;
@@ -335,7 +335,9 @@ body {
 .modal-overlay {
     position: fixed;
     inset: 0;
+
     background: rgba(8, 15, 30, 0.72);
+
     backdrop-filter: blur(7px);
     -webkit-backdrop-filter: blur(7px);
 
@@ -344,11 +346,15 @@ body {
     align-items: center;
 
     padding: 20px;
+
     z-index: 9999;
 
     opacity: 1;
     visibility: visible;
-    transition: opacity .35s ease, visibility .35s ease;
+
+    transition:
+        opacity .35s ease,
+        visibility .35s ease;
 }
 
 .modal-overlay.hidden {
@@ -356,8 +362,9 @@ body {
     visibility: hidden;
 }
 
+
 /* =========================
-   CONTENEDOR
+   CONTENEDOR DEL MODAL
 ========================= */
 
 .modal {
@@ -365,17 +372,21 @@ body {
     max-width: 620px;
 
     background: #ffffff;
+
     border-radius: 24px;
 
     padding: 30px;
 
     box-shadow:
-        0 25px 70px rgba(0,0,0,.22);
+        0 25px 70px rgba(0, 0, 0, .22);
 
     transform: scale(1);
-    transition: transform .35s ease;
+
+    transition:
+        transform .35s ease;
 
     position: relative;
+
     overflow: hidden;
 }
 
@@ -383,11 +394,16 @@ body {
     transform: scale(.92);
 }
 
-/* Línea decorativa superior */
+
+/* =========================
+   LINEA SUPERIOR NARANJA
+========================= */
 
 .modal::before {
     content: "";
+
     position: absolute;
+
     top: 0;
     left: 0;
 
@@ -396,11 +412,12 @@ body {
 
     background: linear-gradient(
         90deg,
-        #0b63ce,
-        #1976e8,
-        #43a5ff
+        #FF6600,
+        #FF7A1A,
+        #FF8C42
     );
 }
+
 
 /* =========================
    LOGO
@@ -408,6 +425,7 @@ body {
 
 .logo-container {
     display: flex;
+
     justify-content: center;
     align-items: center;
 
@@ -415,26 +433,30 @@ body {
 }
 
 .logo {
-    width: 72px;
+    width: 110px;
     height: 72px;
 
     display: flex;
+
     justify-content: center;
     align-items: center;
 
-    border-radius: 18px;
+    background: transparent;
 
-    background: #f1f6fc;
-
-    padding: 12px;
+    padding: 5px;
 
     animation: logoAppear .6s ease;
 }
 
-.logo svg {
+.logo img {
     width: 100%;
     height: 100%;
+
+    object-fit: contain;
+
+    display: block;
 }
+
 
 /* =========================
    TITULO
@@ -444,6 +466,7 @@ body {
     text-align: center;
 
     font-size: 25px;
+
     font-weight: 700;
 
     color: #172033;
@@ -455,6 +478,7 @@ body {
     text-align: center;
 
     font-size: 14px;
+
     line-height: 1.5;
 
     color: #697386;
@@ -462,8 +486,9 @@ body {
     margin-bottom: 25px;
 }
 
+
 /* =========================
-   OPCIONES
+   CONTENEDOR DE OPCIONES
 ========================= */
 
 .options {
@@ -474,7 +499,10 @@ body {
     gap: 16px;
 }
 
-/* Tarjeta */
+
+/* =========================
+   OPCION
+========================= */
 
 .option {
     position: relative;
@@ -485,39 +513,43 @@ body {
 
     padding: 15px;
 
-    background: #fff;
+    background: #ffffff;
 
     cursor: pointer;
+
+    user-select: none;
 
     transition:
         border-color .25s ease,
         box-shadow .25s ease,
         transform .25s ease,
         background .25s ease;
-
-    user-select: none;
 }
 
 .option:hover {
     transform: translateY(-3px);
 
-    border-color: #b9cce3;
+    border-color: #ffb27d;
 
     box-shadow:
         0 10px 25px rgba(20, 45, 80, .09);
 }
 
-/* Imagen */
+
+/* =========================
+   IMAGEN DE LA OPCION
+========================= */
 
 .option-image {
     width: 100%;
+
     height: 145px;
 
     border-radius: 13px;
 
     overflow: hidden;
 
-    background: #eef2f6;
+    background: #f5f5f5;
 
     margin-bottom: 13px;
 }
@@ -530,23 +562,33 @@ body {
 
     display: block;
 
-    transition: transform .4s ease;
+    transition:
+        transform .4s ease;
 }
 
 .option:hover .option-image img {
     transform: scale(1.05);
 }
 
-/* Texto */
+
+/* =========================
+   TITULO DE OPCION
+========================= */
 
 .option-title {
     font-size: 17px;
+
     font-weight: 700;
 
     color: #182235;
 
     margin-bottom: 5px;
 }
+
+
+/* =========================
+   DESCRIPCION
+========================= */
 
 .option-description {
     font-size: 12px;
@@ -556,26 +598,38 @@ body {
     color: #7a8494;
 }
 
+
 /* =========================
-   SELECCIONADO
+   OPCION SELECCIONADA
 ========================= */
 
 .option.selected {
-    border-color: #1268d5;
+    border-color: #FF6600;
 
-    background: #f3f8ff;
+    background: #fff7f1;
 
     box-shadow:
-        0 8px 25px rgba(18,104,213,.16);
+        0 8px 25px rgba(255, 102, 0, .16);
 
     transform: translateY(-3px);
+
+    animation:
+        selectedAnimation .35s ease;
 }
+
+
+/* =========================
+   IMAGEN SELECCIONADA
+========================= */
 
 .option.selected .option-image img {
     transform: scale(1.04);
 }
 
-/* Check */
+
+/* =========================
+   CHECK DE SELECCION
+========================= */
 
 .option-check {
     position: absolute;
@@ -588,18 +642,21 @@ body {
 
     border-radius: 50%;
 
-    background: #1268d5;
+    background: #FF6600;
 
     display: flex;
+
     justify-content: center;
     align-items: center;
 
-    color: white;
+    color: #ffffff;
 
     font-size: 15px;
+
     font-weight: bold;
 
     opacity: 0;
+
     transform: scale(.5);
 
     transition:
@@ -609,11 +666,13 @@ body {
 
 .option.selected .option-check {
     opacity: 1;
+
     transform: scale(1);
 }
 
+
 /* =========================
-   BOTON
+   BOTON CONTINUAR
 ========================= */
 
 .continue-btn {
@@ -632,6 +691,7 @@ body {
     color: #929aa7;
 
     font-size: 15px;
+
     font-weight: 700;
 
     cursor: not-allowed;
@@ -642,34 +702,50 @@ body {
         box-shadow .25s ease;
 }
 
+
+/* =========================
+   BOTON ACTIVO
+========================= */
+
 .continue-btn.active {
     background: linear-gradient(
         135deg,
-        #0865d2,
-        #1681ed
+        #FF6600,
+        #FF7A1A
     );
 
-    color: #fff;
+    color: #ffffff;
 
     cursor: pointer;
 
     box-shadow:
-        0 8px 20px rgba(8,101,210,.25);
+        0 8px 20px rgba(255, 102, 0, .25);
 }
+
+
+/* =========================
+   HOVER BOTON
+========================= */
 
 .continue-btn.active:hover {
     transform: translateY(-2px);
 
     box-shadow:
-        0 12px 25px rgba(8,101,210,.32);
+        0 12px 25px rgba(255, 102, 0, .32);
 }
+
+
+/* =========================
+   CLICK BOTON
+========================= */
 
 .continue-btn.active:active {
     transform: translateY(0);
 }
 
+
 /* =========================
-   PEQUEÑO TEXTO
+   TEXTO INFERIOR
 ========================= */
 
 .modal-footer {
@@ -682,27 +758,34 @@ body {
     color: #9aa3af;
 }
 
+
 /* =========================
-   ANIMACIONES
+   ANIMACION DEL LOGO
 ========================= */
 
 @keyframes logoAppear {
+
     from {
         opacity: 0;
-        transform: translateY(-12px) scale(.9);
+
+        transform:
+            translateY(-12px)
+            scale(.9);
     }
 
     to {
         opacity: 1;
-        transform: translateY(0) scale(1);
+
+        transform:
+            translateY(0)
+            scale(1);
     }
 }
 
-/* Animación de selección */
 
-.option.selected {
-    animation: selectedAnimation .35s ease;
-}
+/* =========================
+   ANIMACION DE SELECCION
+========================= */
 
 @keyframes selectedAnimation {
 
@@ -718,6 +801,7 @@ body {
         transform: scale(1);
     }
 }
+
 
 /* =========================
    RESPONSIVE
@@ -735,6 +819,10 @@ body {
         font-size: 22px;
     }
 
+    .modal-subtitle {
+        font-size: 13px;
+    }
+
     .options {
         grid-template-columns: 1fr;
     }
@@ -742,8 +830,12 @@ body {
     .option-image {
         height: 135px;
     }
-}
 
+    .logo {
+        width: 105px;
+        height: 68px;
+    }
+}
 </style>
 </head>
 <body>
@@ -838,38 +930,11 @@ body {
         <div class="logo-container">
 
             <div class="logo">
-
-                <!-- Reemplaza este SVG por el logo de tu página -->
-
-                <svg
-                    viewBox="0 0 100 100"
-                    xmlns="http://www.w3.org/2000/svg"
-                >
-
-                    <circle
-                        cx="50"
-                        cy="50"
-                        r="45"
-                        fill="#1268d5"
-                    />
-
-                    <path
-                        d="M28 55
-                           C35 35 65 35 72 55
-                           C65 72 35 72 28 55Z"
-                        fill="white"
-                    />
-
-                    <circle
-                        cx="50"
-                        cy="52"
-                        r="8"
-                        fill="#1268d5"
-                    />
-
-                </svg>
-
-            </div>
+    <img
+        src="logo-banco-estado.svg"
+        alt="BancoEstado"
+    >
+</div>
 
         </div>
 
